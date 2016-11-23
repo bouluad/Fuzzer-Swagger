@@ -29,6 +29,11 @@
             <artifactId>swagger-compat-spec-parser</artifactId>
             <version>1.0.23</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.kevinsawicki</groupId>
+            <artifactId>http-request</artifactId>
+            <version>6.0</version>
+        </dependency>
     </dependencies>
 
 </project>
