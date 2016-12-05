@@ -2,9 +2,6 @@ package models;
 
 import java.util.List;
 
-/**
- * Created by bouluad on 23/11/16.
- */
 public class Path {
 
     private String path;
