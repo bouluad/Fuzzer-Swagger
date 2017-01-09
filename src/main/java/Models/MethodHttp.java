@@ -1,5 +1,7 @@
-package models;
+package Models;
 
+
+import io.swagger.models.parameters.Parameter;
 
 import java.util.List;
 
@@ -11,13 +13,17 @@ public class MethodHttp {
     private String type;
     private String tag;
     private List<ResponseHttp> responseHttps;
-    private String parametrs;
+    private List<Parameter> params ;
 
-    public MethodHttp(String type, String tag, List<ResponseHttp> responseHttps, String parametrs) {
+    public MethodHttp(String type, String tag, List<ResponseHttp> responseHttps, List p) {
         this.type = type;
         this.tag = tag;
         this.responseHttps = responseHttps;
-        this.parametrs = parametrs;
+        this.params = p;
+    }
+
+    public MethodHttp() {
+
     }
 
     public String getType() {
@@ -44,11 +50,11 @@ public class MethodHttp {
         this.responseHttps = responseHttps;
     }
 
-    public String getParametrs() {
-        return parametrs;
+    public List<Parameter> getParams() {
+        return params;
     }
 
-    public void setParametrs(String parametrs) {
-        this.parametrs = parametrs;
+    public void setParams(List<Parameter> params) {
+        this.params = params;
     }
 }

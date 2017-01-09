@@ -4,86 +4,139 @@ package Main;
  * Created by bouluad on 16/11/16.
  */
 
-import com.github.javafaker.Faker;
+import Business.ParserSwagger;
+import Models.MethodHttp;
+import Models.ResponseHttp;
 import com.github.kevinsawicki.http.HttpRequest;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 
 import java.net.MalformedURLException;
-import java.util.Locale;
 
 
 public class Main {
 
     public static void main(String[] args) throws MalformedURLException {
 
-        Swagger swagger = new SwaggerParser().read("http://generator.swagger.io/api/swagger.json");
+        Swagger swagger = new SwaggerParser().read("http://petstore.swagger.io/v2/swagger.json");
+
+        ParserSwagger parserSwagger = new ParserSwagger(swagger);
 
 
-        for (Path p : swagger.getPaths().values()
-                ) {
+        for (Models.Path p : parserSwagger.parser()) {
+            System.out.println("***************************");
+            System.out.println("Path : " + p.getPath());
 
-            System.out.println("******************");
+            for (MethodHttp m : p.getMethodHttps()) {
 
-            for (Operation o : p.getOperationMap().values()
-                    ) {
+                System.out.println("------------ Type " + m.getType());
+                System.out.println("------------ Tag " + m.getTag());
 
-                System.out.println(o.getSummary());
-                for (Parameter par : o.getParameters()
-                        ) {
+                for (ResponseHttp r : m.getResponseHttps()) {
 
-                    System.out.println(par.getDescription());
-                    System.out.println(par.getIn());
-                    System.out.println(par.getName());
+                    System.out.println("----------------- Res [" + r.getId() + "," + r.getDescription() + "]");
                 }
 
-                System.out.println("-------------------------------");
+                for (Parameter par : m.getParams()) {
 
-                for (Response res : o.getResponses().values()
-                        ) {
-
-                    System.out.println("[" + o.getResponses().keySet().iterator().next().toString() + "," + res.getDescription());
-
-
+                    System.out.println("----------------- Param [" + par.getIn() + "," + par.getDescription() + "]");
                 }
+
 
             }
 
-
-            System.out.println("******************");
+            System.out.println("***************************");
         }
 
-        System.out.println(swagger.getPaths().keySet());
+//
+//                Set set = new HashSet();
+//                set = swagger.getPaths().keySet();
+//
+//        for (Map.Entry<String, Path> entry : swagger.getPaths().entrySet()) {
+//            String cle = entry.getKey();
+//            Path p = entry.getValue();
+//
+//
+//            for (Entry<HttpMethod, Operation> list : p.getOperationMap().entrySet()) {
+//                HttpMethod method = list.getKey();
+//                Operation operation = list.getValue();
+//
+//                System.out.println("+++++++++++++++++++++");
+//                for (Map.Entry<String, Response> res : list.getValue().getResponses().entrySet())  {
+//
+//
+//
+//                    System.out.println("Code :"+res.getKey());
+//                    System.out.println("Description : "+res.getValue().getDescription());
+//
+//
+//                }
+//                System.out.println("+++++++++++++++++++++");
+//            }
+//        }
+//
+//        for (Path p : swagger.getPaths().values()) {
+//
+//            System.out.println("******************");
+//
+//
+//            for (Operation o : p.getOperationMap().values()
+//                    ) {
+//
+//                System.out.println(o.getSummary());
+//                for (Parameter par : o.getParameters()
+//                        ) {
+//
+//                    System.out.println(par.getDescription());
+//                    System.out.println(par.getIn());
+//                    System.out.println(par.getName());
+//                }
+//
+//                System.out.println("-------------------------------");
+//
+//                for (Response res : o.getResponses().values()
+//                        ) {
+//
+//                    System.out.println("[" + o.getResponses().keySet().iterator().next().toString() + "," + res.getDescription());
+//
+//
+//                }
+//                System.out.println("-------------------------------");
+//
+//            }
+//
+//
+//            System.out.println("******************");
+//        }
+//
+//        System.out.println(swagger.getPaths().keySet());
+//
+//
+//        Path path = new Path();
+//
+//        System.out.print("Host : " + swagger.getHost());
+//        System.out.println("Base Path :" + swagger.getBasePath());
+//
+//
+//        for (int i = 0; i < 100; i++) {
+//
+//
+//            Faker faker = new Faker(new Locale("en"));
+//
+//            Long test = faker.number().randomNumber();
+//
+//            String tt2 = faker.name().firstName();
+//
+            Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400
+           System.out.println(response);
+//
+//        }
 
+        // String tt = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/findByStatus").body();
 
-        Path path = new Path();
+        //  System.out.println(tt);
 
-        System.out.print(swagger.getHost());
-        System.out.println(swagger.getBasePath());
-
-
-        for (int i = 0; i < 100; i++) {
-
-
-            Faker faker = new Faker(new Locale("en"));
-
-            int test = faker.number().randomDigit();
-
-            String tt2 = faker.name().firstName();
-
-            Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + tt2).code();
-
-
-        }
-
-        String tt = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/mmmm").message();
-
-
-     //   System.out.println(tt);
 //
 //        Path path1 = new Path();
 //

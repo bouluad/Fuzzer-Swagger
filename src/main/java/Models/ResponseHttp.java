@@ -1,4 +1,4 @@
-package models;
+package Models;
 
 /**
  * Created by bouluad on 23/11/16.
@@ -11,6 +11,10 @@ public class ResponseHttp {
     public ResponseHttp(String id, String description) {
         this.id = id;
         this.description = description;
+    }
+
+    public ResponseHttp() {
+
     }
 
     public String getId() {
