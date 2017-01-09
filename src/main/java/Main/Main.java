@@ -7,12 +7,15 @@ package Main;
 import Business.ParserSwagger;
 import Models.MethodHttp;
 import Models.ResponseHttp;
+import com.github.javafaker.Faker;
 import com.github.kevinsawicki.http.HttpRequest;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 
 import java.net.MalformedURLException;
+import java.util.Locale;
+import java.util.Random;
 
 
 public class Main {
@@ -22,6 +25,12 @@ public class Main {
         Swagger swagger = new SwaggerParser().read("http://petstore.swagger.io/v2/swagger.json");
 
         ParserSwagger parserSwagger = new ParserSwagger(swagger);
+        Faker faker = new Faker(new Locale("en"));
+
+        Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400
+        System.out.println(response);
+        System.out.println("Faker :"+faker.idNumber().valid());
+        System.out.println("Faker :"+new Random().nextInt(5));
 
 
         for (Models.Path p : parserSwagger.parser()) {
@@ -128,8 +137,9 @@ public class Main {
 //
 //            String tt2 = faker.name().firstName();
 //
-            Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400
-           System.out.println(response);
+          //  Integer response1 = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400; 31 =>500; 32 =>500
+          // System.out.println(response1);
+
 //
 //        }
 

@@ -4,7 +4,11 @@ import java.util.List;
 
 public class Path {
 
+    private String basePath;
+    private  String host;
+
     private String path;
+
     private List<MethodHttp> methodHttps;
 
     public Path() {
@@ -30,5 +34,21 @@ public class Path {
 
     public void setMethodHttps(List<MethodHttp> methodses) {
         this.methodHttps = methodses;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }

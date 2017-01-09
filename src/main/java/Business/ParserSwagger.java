@@ -18,6 +18,7 @@ import java.util.Map;
 public class ParserSwagger {
 
     private Swagger swagger;
+
     private List<Path> paths;
     private String host;
     private String basePath;
@@ -52,6 +53,8 @@ public class ParserSwagger {
         for (Map.Entry<String, io.swagger.models.Path> listPath : swagger.getPaths().entrySet()) {
 
             Path mPath = new Path();
+            mPath.setBasePath(basePath);
+            mPath.setHost(host);
             mPath.setPath(listPath.getKey());
 
             // Récupérer tout les méthodes HTTP
