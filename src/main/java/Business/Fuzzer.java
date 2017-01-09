@@ -2,6 +2,7 @@ package Business;
 
 import Models.MethodHttp;
 import Models.Path;
+import Models.Response;
 import Models.ResponseHttp;
 import com.github.javafaker.Faker;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -27,7 +28,7 @@ public class Fuzzer {
 
     public void fuzzing() {
 
-        ResponseHttp res = new ResponseHttp();
+        Response res = new Response();
 
         for (Path p : pathList) {
 
@@ -38,53 +39,59 @@ public class Fuzzer {
 
                     res = execute(p, m);
 
+
                 }
 
             }
         }
     }
 
-    public ResponseHttp execute(Path path, MethodHttp m) {
+    public Response execute(Path path, MethodHttp m) {
 
-        ResponseHttp responseHttp = new ResponseHttp();
+        Response response = new Response();
+        String dataTest = dataTest();
 
         if ("GET".equals(m.getType())) {
-            Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).code();
-            String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).body();
+            Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
+            String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-            responseHttp.setId(String.valueOf(code));
-            responseHttp.setDescription(body);
+            response.setCode(String.valueOf(code));
+            response.setBody(body);
+            response.setTestData(dataTest);
 
         } else if ("POST".equals(m.getType())) {
 
-            Integer code = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).code();
-            String body = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).body();
+            Integer code = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
+            String body = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-            responseHttp.setId(String.valueOf(code));
-            responseHttp.setDescription(body);
+            response.setCode(String.valueOf(code));
+            response.setBody(body);
+            response.setTestData(dataTest);
 
 
         } else if ("PUT".equals(m.getType())) {
 
-            Integer code = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).code();
-            String body = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).body();
+            Integer code = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
+            String body = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-            responseHttp.setId(String.valueOf(code));
-            responseHttp.setDescription(body);
+            response.setCode(String.valueOf(code));
+            response.setBody(body);
+            response.setTestData(dataTest);
 
 
         } else {
 
-            Integer code = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).code();
-            String body = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest()).body();
+            Integer code = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
+            String body = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-            responseHttp.setId(String.valueOf(code));
-            responseHttp.setDescription(body);
+            response.setCode(String.valueOf(code));
+            response.setBody(body);
+            response.setTestData(dataTest);
 
 
         }
 
-        return responseHttp;
+        return response;
     }
 
     public String dataTest() {
