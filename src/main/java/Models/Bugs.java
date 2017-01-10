@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.List;
+
 /**
  * Created by bouluad on 09/01/17.
  */
@@ -7,9 +9,36 @@ public class Bugs {
 
     // Contient code , body et donnée de test
     private Response response;
-    private String expectedCode;
+    // List des codes attendus
+    private List<String> expectedCodes;
+    private String path;
+    private String method;
+
+
+    public Bugs(Response response, List<String> expectedCodes, String path, String method) {
+        this.response = response;
+        this.expectedCodes = expectedCodes;
+        this.path = path;
+        this.method = method;
+    }
 
     public Bugs() {
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public Response getResponse() {
@@ -20,11 +49,11 @@ public class Bugs {
         this.response = response;
     }
 
-    public String getExpectedCode() {
-        return expectedCode;
+    public List<String> getExpectedCodes() {
+        return expectedCodes;
     }
 
-    public void setExpectedCode(String expectedCode) {
-        this.expectedCode = expectedCode;
+    public void setExpectedCodes(List<String> expectedCodes) {
+        this.expectedCodes = expectedCodes;
     }
 }

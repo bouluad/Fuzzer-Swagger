@@ -4,18 +4,15 @@ package Main;
  * Created by bouluad on 16/11/16.
  */
 
+import Business.Fuzzer;
 import Business.ParserSwagger;
-import Models.MethodHttp;
-import Models.ResponseHttp;
-import com.github.javafaker.Faker;
-import com.github.kevinsawicki.http.HttpRequest;
+import Models.Bugs;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 
 import java.net.MalformedURLException;
-import java.util.Locale;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main {
@@ -25,38 +22,54 @@ public class Main {
         Swagger swagger = new SwaggerParser().read("http://petstore.swagger.io/v2/swagger.json");
 
         ParserSwagger parserSwagger = new ParserSwagger(swagger);
-        Faker faker = new Faker(new Locale("en"));
 
-        Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400
-        System.out.println(response);
-        System.out.println("Faker :"+faker.idNumber().valid());
-        System.out.println("Faker :"+new Random().nextInt(5));
+        Fuzzer fuzzer = new Fuzzer(parserSwagger.parser());
 
+        List<Bugs> bugsList = new ArrayList<Bugs>();
 
-        for (Models.Path p : parserSwagger.parser()) {
-            System.out.println("***************************");
-            System.out.println("Path : " + p.getPath());
+        bugsList = fuzzer.fuzzing();
 
-            for (MethodHttp m : p.getMethodHttps()) {
+        System.out.println("List bugs :" + bugsList.size());
 
-                System.out.println("------------ Type " + m.getType());
-                System.out.println("------------ Tag " + m.getTag());
+        for (Bugs b :bugsList){
 
-                for (ResponseHttp r : m.getResponseHttps()) {
+            System.out.println("Path : "+b.getPath()+", Method :"+b.getMethod()+", Code :"+b.getResponse().getCode()+" , DT: "+b.getResponse().getTestData()+" | "+b.getExpectedCodes().get(0));
 
-                    System.out.println("----------------- Res [" + r.getId() + "," + r.getDescription() + "]");
-                }
-
-                for (Parameter par : m.getParams()) {
-
-                    System.out.println("----------------- Param [" + par.getIn() + "," + par.getDescription() + "]");
-                }
-
-
-            }
-
-            System.out.println("***************************");
         }
+
+
+//        Faker faker = new Faker(new Locale("en"));
+//
+//        Integer response = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400
+//        System.out.println(response);
+//        System.out.println("Faker :"+faker.idNumber().valid());
+//        System.out.println("Faker :"+new Random().nextInt(5));
+//
+//
+//        for (Models.Path p : parserSwagger.parser()) {
+//            System.out.println("***************************");
+//            System.out.println("Path : " + p.getPath());
+//
+//            for (MethodHttp m : p.getMethodHttps()) {
+//
+//                System.out.println("------------ Type " + m.getType());
+//                System.out.println("------------ Tag " + m.getTag());
+//
+//                for (ResponseHttp r : m.getResponseHttps()) {
+//
+//                    System.out.println("----------------- Res [" + r.getId() + "," + r.getDescription() + "]");
+//                }
+//
+//                for (Parameter par : m.getParams()) {
+//
+//                    System.out.println("----------------- Param [" + par.getIn() + "," + par.getDescription() + "]");
+//                }
+//
+//
+//            }
+//
+//            System.out.println("***************************");
+//        }
 
 //
 //                Set set = new HashSet();
@@ -137,8 +150,8 @@ public class Main {
 //
 //            String tt2 = faker.name().firstName();
 //
-          //  Integer response1 = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400; 31 =>500; 32 =>500
-          // System.out.println(response1);
+        //  Integer response1 = HttpRequest.get("http://" + swagger.getHost() + swagger.getBasePath() + "/pet/" + "36").code(); //#5896 => 405 , <> => 400; 31 =>500; 32 =>500
+        // System.out.println(response1);
 
 //
 //        }
