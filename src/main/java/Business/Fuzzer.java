@@ -27,6 +27,9 @@ public class Fuzzer {
 
     public List<Bugs> fuzzing() {
 
+        String oldPath="";
+        String oldMethod ="";
+        String oldCode="";
         List<Bugs> bugsList = new ArrayList<Bugs>();
         Response res = new Response();
 
@@ -39,7 +42,7 @@ public class Fuzzer {
 
                     res = execute(p, m);
 
-                    if (assertResponse(m.getResponseHttps(), res) == false) {
+                    if (res.getCode() != null && res.getTestData() !=null && assertResponse(m.getResponseHttps(), res) == false) {
 
                         List<String> l = new ArrayList<String>();
 
@@ -47,7 +50,14 @@ public class Fuzzer {
 
                             l.add(rh.getId());
                         }
-                        bugsList.add(new Bugs(res, l, p.getPath(), m.getType()));
+
+                        if (p.getPath()!=oldPath && m.getType() !=oldMethod && res.getCode()!=oldCode) {
+
+                            bugsList.add(new Bugs(res, l, p.getPath(), m.getType()));
+                            oldPath = p.getPath();
+                            oldCode = res.getCode();
+                            oldMethod = m.getType();
+                        }
                     }
 
                 }
@@ -70,10 +80,10 @@ public class Fuzzer {
                 if (p.getRequired()) {
                     if ("path".equals(p.getIn())) {
 
-                        Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
-                        String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-                        System.out.println(code + " !! " + path.getPath() + "GET");
+                        Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath()+ path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
+                        String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath()+ path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
+
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
                         response.setTestData(dataTest);
@@ -92,7 +102,6 @@ public class Fuzzer {
                         Integer code = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
                         String body = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-                        System.out.println(code + " !! " + path.getPath() + "POST");
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
                         response.setTestData(dataTest);
@@ -112,7 +121,6 @@ public class Fuzzer {
                         Integer code = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
                         String body = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-                        System.out.println(code + " !! " + path.getPath() + "PUT");
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
                         response.setTestData(dataTest);
@@ -132,7 +140,6 @@ public class Fuzzer {
                         Integer code = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
                         String body = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
 
-                        System.out.println(code + " !! " + path.getPath() + "DELETE");
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
                         response.setTestData(dataTest);

@@ -62,13 +62,13 @@ public class TextAreaOutputStream extends WindowAdapter implements WindowListene
 
         // Starting two seperate threads to read from the PipedInputStreams
         //
-        reader = new Thread(this);
-        reader.setDaemon(true);
-        reader.start();
-        //
-        reader2 = new Thread(this);
-        reader2.setDaemon(true);
-        reader2.start();
+//        reader = new Thread(this);
+//        reader.setDaemon(true);
+//        reader.start();
+//        //
+//        reader2 = new Thread(this);
+//        reader2.setDaemon(true);
+//        reader2.start();
 
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -83,6 +83,7 @@ public class TextAreaOutputStream extends WindowAdapter implements WindowListene
 
     public static void main(String[] arg) {
         TextAreaOutputStream t = new TextAreaOutputStream();
+        System.out.println("hello");
 
     }
 
@@ -125,29 +126,20 @@ public class TextAreaOutputStream extends WindowAdapter implements WindowListene
                 if (quit) return;
             }
 
-            while (Thread.currentThread() == reader2) {
-                try {
-                    this.wait(100);
-                } catch (InterruptedException ie) {
-                }
-                if (pin2.available() != 0) {
-                    String input = this.readLine(pin2);
-                    textArea.append(input);
-                }
-                if (quit) return;
-            }
+//            while (Thread.currentThread() == reader2) {
+//                try {
+//                    this.wait(100);
+//                } catch (InterruptedException ie) {
+//                }
+//                if (pin2.available() != 0) {
+//                    String input = this.readLine(pin2);
+//                    textArea.append(input);
+//                }
+//                if (quit) return;
+//            }
         } catch (Exception e) {
             textArea.append("\nConsole reports an Internal error.");
             textArea.append("The error is: " + e);
-        }
-
-        // just for testing (Throw a Nullpointer after 1 second)
-        if (Thread.currentThread() == errorThrower) {
-            try {
-                this.wait(1000);
-            } catch (InterruptedException ie) {
-            }
-            throw new NullPointerException("Application test: throwing an NullPointerException It should arrive at the console");
         }
 
     }

@@ -33,7 +33,8 @@ public class Main {
 
         for (Bugs b :bugsList){
 
-            System.out.println("Path : "+b.getPath()+", Method :"+b.getMethod()+", Code :"+b.getResponse().getCode()+" , DT: "+b.getResponse().getTestData()+" | "+b.getExpectedCodes().get(0));
+
+                System.out.println("Path : " + b.getPath() + ", Method :" + b.getMethod() + ", Code :" + b.getResponse().getCode() + " , DT: " + b.getResponse().getTestData() + " | " + b.getExpectedCodes().get(0));
 
         }
 
