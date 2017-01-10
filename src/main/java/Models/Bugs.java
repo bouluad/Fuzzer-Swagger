@@ -1,6 +1,8 @@
 package Models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bouluad on 09/01/17.
@@ -10,12 +12,12 @@ public class Bugs {
     // Contient code , body et donnée de test
     private Response response;
     // List des codes attendus
-    private List<String> expectedCodes;
+    Map<String, String> expectedCodes;
     private String path;
     private String method;
 
 
-    public Bugs(Response response, List<String> expectedCodes, String path, String method) {
+    public Bugs(Response response, Map<String, String> expectedCodes, String path, String method) {
         this.response = response;
         this.expectedCodes = expectedCodes;
         this.path = path;
@@ -49,11 +51,11 @@ public class Bugs {
         this.response = response;
     }
 
-    public List<String> getExpectedCodes() {
+    public Map<String, String> getExpectedCodes() {
         return expectedCodes;
     }
 
-    public void setExpectedCodes(List<String> expectedCodes) {
+    public void setExpectedCodes(Map<String, String> expectedCodes) {
         this.expectedCodes = expectedCodes;
     }
 }

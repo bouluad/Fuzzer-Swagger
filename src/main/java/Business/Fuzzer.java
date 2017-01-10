@@ -5,17 +5,14 @@ import com.github.javafaker.Faker;
 import com.github.kevinsawicki.http.HttpRequest;
 import io.swagger.models.parameters.Parameter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by bouluad on 09/01/17.
  */
 public class Fuzzer {
 
-    private static int NB = 2;
+    private static int NB = 4;
 
     private List<Path> pathList;
 
@@ -27,9 +24,9 @@ public class Fuzzer {
 
     public List<Bugs> fuzzing() {
 
-        String oldPath="";
-        String oldMethod ="";
-        String oldCode="";
+        String oldPath = "";
+        String oldMethod = "";
+        String oldCode = "";
         List<Bugs> bugsList = new ArrayList<Bugs>();
         Response res = new Response();
 
@@ -42,16 +39,17 @@ public class Fuzzer {
 
                     res = execute(p, m);
 
-                    if (res.getCode() != null && res.getTestData() !=null && assertResponse(m.getResponseHttps(), res) == false) {
+                    if (res.getCode() != null && res.getTestData() != null && assertResponse(m.getResponseHttps(), res) == false) {
 
-                        List<String> l = new ArrayList<String>();
+                        // Pour stocker les résultats attendus
+                        Map<String, String> l = new HashMap();
 
                         for (ResponseHttp rh : m.getResponseHttps()) {
 
-                            l.add(rh.getId());
+                            l.put(rh.getId(),rh.getDescription());
                         }
 
-                        if (p.getPath()!=oldPath && m.getType() !=oldMethod && res.getCode()!=oldCode) {
+                        if (p.getPath() != oldPath && m.getType() != oldMethod && res.getCode() != oldCode) {
 
                             bugsList.add(new Bugs(res, l, p.getPath(), m.getType()));
                             oldPath = p.getPath();
@@ -81,8 +79,8 @@ public class Fuzzer {
                     if ("path".equals(p.getIn())) {
 
 
-                        Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath()+ path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
-                        String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath()+ path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
+                        Integer code = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
+                        String body = HttpRequest.get("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
 
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
@@ -99,8 +97,8 @@ public class Fuzzer {
                 if (p.getRequired()) {
                     if ("path".equals(p.getIn())) {
 
-                        Integer code = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
-                        String body = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
+                        Integer code = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
+                        String body = HttpRequest.post("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
 
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
@@ -118,8 +116,8 @@ public class Fuzzer {
                 if (p.getRequired()) {
                     if ("path".equals(p.getIn())) {
 
-                        Integer code = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
-                        String body = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
+                        Integer code = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
+                        String body = HttpRequest.put("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
 
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
@@ -137,8 +135,8 @@ public class Fuzzer {
                 if (p.getRequired()) {
                     if ("path".equals(p.getIn())) {
 
-                        Integer code = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).code();
-                        String body = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + "/" + path.getPath() + "/" + dataTest).body();
+                        Integer code = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).code();
+                        String body = HttpRequest.delete("http://" + path.getHost() + path.getBasePath() + path.getPath().replaceAll("\\{.*?\\}", dataTest)).body();
 
                         response.setCode(String.valueOf(code));
                         response.setBody(body);
@@ -173,10 +171,14 @@ public class Fuzzer {
 
                 break;
             case 3:
+
                 data = carSpe[new Random().nextInt(5)];
+
                 break;
             default:
+
                 data = faker.idNumber().valid();
+
                 break;
 
         }

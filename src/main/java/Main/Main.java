@@ -10,10 +10,13 @@ import Models.Bugs;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 public class Main {
 
@@ -31,12 +34,64 @@ public class Main {
 
         System.out.println("List bugs :" + bugsList.size());
 
-        for (Bugs b :bugsList){
+
+        // Log file
+
+        File file = new File("log.txt");
+
+        // creates the file
+        try {
+            file.createNewFile();
+            // creates a FileWriter Object
+            FileWriter writer = new FileWriter(file);
+
+            // Writes the content to the file
+            writer.write("******************** Bugs : " + parserSwagger.getTitle() + " ********************\n");
+
+            writer.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+            writer.write("+   You must contact : '"+ parserSwagger.getMail() +"' To fix the bugs +\n" );
+            writer.write("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+
+            for (Bugs b : bugsList) {
+                writer.write("-----------------------------------------------------------\n");
+                writer.write(" + Path             : " + b.getPath() + "\n");
+                writer.write(" + HTTP method      : " + b.getMethod() + "\n");
+                writer.write(" + Code returned    : " + b.getResponse().getCode() + "\n");
+                writer.write(" + Expected results : [ ");
+
+                for (Map.Entry<String, String> entry : b.getExpectedCodes().entrySet()) {
+
+                    writer.write(entry.getKey() + " : " + entry.getValue() + " | ");
+
+                }
+                writer.write("]\n ");
+                writer.write(" + Test data          : " + b.getResponse().getTestData() + "\n");
+                writer.write("-----------------------------------------------------------\n");
+            }
 
 
-                System.out.println("Path : " + b.getPath() + ", Method :" + b.getMethod() + ", Code :" + b.getResponse().getCode() + " , DT: " + b.getResponse().getTestData() + " | " + b.getExpectedCodes().get(0));
+            writer.flush();
+            writer.close();
 
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+
+
+      /*  for (Bugs b :bugsList){
+
+                System.out.println("Path : " + b.getPath() + ", Method :" + b.getMethod() + ", Code :" + b.getResponse().getCode() + " , DT: " + b.getResponse().getTestData() + " | ");
+
+            System.out.print("[");
+            for (int i=0;i<b.getExpectedCodes().size();i++){
+
+                System.out.print(b.getExpectedCodes().get(i)+",");
+            }
+            System.out.println("]");
+
+        }*/
 
 
 //        Faker faker = new Faker(new Locale("en"));
