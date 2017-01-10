@@ -1,0 +1,18 @@
+machine:
+  timezone:
+    America/New_York
+
+  java:
+version: oraclejdk8
+
+dependencies:
+ override:
+  - mvn clean
+  - mvn install
+
+general:
+  branches:
+    only:
+      - master
+run:
+ -mvn compile

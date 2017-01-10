@@ -1,4 +1,4 @@
-# Fuzzer-API
+# Fuzzer-API  [![CircleCI](https://circleci.com/bb/bouluad/fuzzer-swagger.svg?style=svg)](https://circleci.com/bb/bouluad/fuzzer-swagger)
 
 Fuzzer-API est un outil qui testera automatiquement votre API swagger. Pour exécuter le test, Fuzzer-API détectera tous les chemins et les actions (HTTP Methods) de votre API. Et pour chacun d'eux, il enverra un nombre N de requêtes et vérifiera si les réponses correspondent à la spécification du fichier swagger.
 
