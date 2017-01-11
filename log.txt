@@ -1,32 +1,11 @@
-******************** Bugs : Swagger Petstore ********************
+******************** Bugs : ProjectUnderTest API ********************
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+   You must contact : 'apiteam@swagger.io' To fix the bugs +
++   You must contact : 'med.bouluad@gmail.com' To fix the bugs +
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -----------------------------------------------------------
- + Path             : /pet/{petId}
- + HTTP method      : DELETE
- + Code returned    : 200
- + Expected results : [ 400 : Invalid ID supplied | 404 : Pet not found | ]
-  + Test data          : 22
------------------------------------------------------------
------------------------------------------------------------
- + Path             : /pet/{petId}
+ + Path             : /api/countries/{id}
  + HTTP method      : GET
  + Code returned    : 500
- + Expected results : [ 400 : Invalid ID supplied | 404 : Pet not found | ]
-  + Test data          : 36
------------------------------------------------------------
------------------------------------------------------------
- + Path             : /pet/{petId}/uploadImage
- + HTTP method      : POST
- + Code returned    : 415
- + Expected results : [ 200 : successful operation | ]
-  + Test data          : Marian
------------------------------------------------------------
------------------------------------------------------------
- + Path             : /user/{username}
- + HTTP method      : DELETE
- + Code returned    : 405
- + Expected results : [ 400 : Invalid username supplied | 404 : User not found | ]
-  + Test data          : ?hello
+ + Expected results : [ 200 : OK | 401 : Unauthorized | 403 : Forbidden | 404 : Not Found | ]
+  + Test data          : 90
 -----------------------------------------------------------

@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Fuzzer {
 
-    private static int NB = 4;
+    private static int NB = 100;
 
     private List<Path> pathList;
 
@@ -46,7 +46,7 @@ public class Fuzzer {
 
                         for (ResponseHttp rh : m.getResponseHttps()) {
 
-                            l.put(rh.getId(),rh.getDescription());
+                            l.put(rh.getId(), rh.getDescription());
                         }
 
                         if (p.getPath() != oldPath && m.getType() != oldMethod && res.getCode() != oldCode) {
