@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Fuzzer {
 
-    private static int NB = 100;
+    private static int NB = 4;
 
     private List<Path> pathList;
 

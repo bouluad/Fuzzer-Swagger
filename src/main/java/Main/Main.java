@@ -45,8 +45,8 @@ public class Main {
 
         // Log file
 
-        File file = new File("log.txt");
-
+        File file = new File("/var/www/html/testvv/index.html");
+        
         // creates the file
         try {
             file.createNewFile();
@@ -55,26 +55,37 @@ public class Main {
 
             // Writes the content to the file
             writer.write("******************** Bugs : " + parserSwagger.getTitle() + " ********************\n");
-
+            writer.write("<br/>");
             writer.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+            writer.write("<br/>");
             writer.write("+   You must contact : '" + parserSwagger.getMail() + "' To fix the bugs +\n");
+            writer.write("<br/>");
             writer.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-
+            writer.write("<br/>");
             for (Bugs b : bugsList) {
+                 writer.write("<br/>");
                 writer.write("-----------------------------------------------------------\n");
+                writer.write("<br/>");
                 writer.write(" + Path             : " + b.getPath() + "\n");
+                writer.write("<br/>");
                 writer.write(" + HTTP method      : " + b.getMethod() + "\n");
+                writer.write("<br/>");
                 writer.write(" + Code returned    : " + b.getResponse().getCode() + "\n");
+                writer.write("<br/>");
                 writer.write(" + Expected results : [ ");
-
+                writer.write("<br/>");
                 for (Map.Entry<String, String> entry : b.getExpectedCodes().entrySet()) {
-
                     writer.write(entry.getKey() + " : " + entry.getValue() + " | ");
+                    writer.write("<br/>");
 
                 }
+                writer.write("<br/>");
                 writer.write("]\n ");
+                writer.write("<br/>");
                 writer.write(" + Test data          : " + b.getResponse().getTestData() + "\n");
+                writer.write("<br/>");
                 writer.write("-----------------------------------------------------------\n");
+             writer.write("<br/>");
             }
 
 
